@@ -396,41 +396,54 @@ p { margin: 0; }
   color: rgba(243,236,225,0.85);
 }
 
-/* Masajes grid */
-.masajes-intro { max-width: 640px; margin-bottom: 56px; }
-.masajes-intro h2 { font-size: clamp(28px, 3.6vw, 40px); margin-top: 20px; line-height: 1.2; }
-.masajes-intro p { margin-top: 20px; font-size: 17px; line-height: 1.75; color: var(--carbon-60); }
-.masajes-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1px;
-  background: var(--piedra);
-  border: 1px solid var(--piedra);
+/* Masajes — protagonista tras el hero */
+.mx { position: relative; padding: 40px 48px 132px; }
+.mx-inner { max-width: var(--maxw); margin: 0 auto; }
+.mx-head { max-width: 760px; }
+.mx-head h2 { font-size: clamp(40px, 5.6vw, 76px); line-height: 1.04; margin-top: 22px; }
+.mx-head p { margin-top: 26px; font-size: clamp(16px, 1.8vw, 19px); line-height: 1.7; color: var(--carbon-60); max-width: 560px; }
+.mx-list {
+  list-style: none; margin: 72px 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  grid-auto-flow: column; grid-template-rows: repeat(5, auto);
+  column-gap: 72px;
 }
-.masaje-item {
-  background: var(--marfil);
-  padding: 30px 34px;
-  font-size: 18px;
-  cursor: default;
-  position: relative;
-  transition: background 0.25s ease, padding-left 0.25s ease;
+.mx-item {
+  display: flex; align-items: baseline; gap: 28px;
+  padding: 26px 0; border-bottom: 1px solid var(--piedra);
+  transition: padding-left 0.3s ease;
 }
-.masaje-item .n {
-  font-family: var(--font-sans);
-  font-size: 12px;
-  color: var(--ocre);
-  letter-spacing: 0.1em;
-  display: block;
-  margin-bottom: 8px;
+.mx-list .mx-item:nth-child(-n+5) { border-top: 0; }
+.mx-n { font-family: var(--font-serif); font-size: 30px; line-height: 1; color: var(--arcilla); min-width: 2.1ch; font-variant-numeric: tabular-nums; transition: color 0.3s ease; }
+.mx-t { font-family: var(--font-serif); font-size: clamp(21px, 2.2vw, 28px); line-height: 1.25; color: var(--carbon); }
+.mx-item:hover, .mx-item:focus-visible { padding-left: 14px; }
+.mx-item:hover .mx-n, .mx-item:focus-visible .mx-n { color: var(--arcilla-dark); }
+
+/* Masajes — entrada difuminada + contador */
+.mx-count {
+  display: inline-block; min-width: .95em; text-align: left;
+  font-size: 1.45em; line-height: .9; vertical-align: -0.04em;
+  color: var(--arcilla);
+  -webkit-text-stroke: 0.035em currentColor; paint-order: stroke fill;
+  font-variant-numeric: tabular-nums;
 }
-.masaje-item:hover, .masaje-item:focus-visible {
-  background: var(--carbon);
-  color: var(--marfil);
-  padding-left: 44px;
+.mx-fx > * {
+  opacity: 0; filter: blur(16px); transform: translateY(16px);
+  transition: opacity 1.2s ease, filter 1.3s ease, transform 1.3s cubic-bezier(.2,.7,.3,1);
 }
-.masaje-item:hover .n, .masaje-item:focus-visible .n { color: var(--piedra); }
+.mx-fx.in > * { opacity: 1; filter: blur(0); transform: none; }
+.mx-fx.in > :nth-child(2) { transition-delay: .18s; }
+.mx-fx.in > :nth-child(3) { transition-delay: .4s; }
+@media (prefers-reduced-motion: reduce) {
+  .mx-fx > * { opacity: 1; filter: none; transform: none; transition: none; }
+}
+@media (max-width: 900px) {
+  .mx-list { grid-auto-flow: row; grid-template-rows: none; grid-template-columns: 1fr; margin-top: 48px; }
+}
 @media (max-width: 720px) {
-  .masajes-grid { grid-template-columns: 1fr; }
+  .mx { padding: 24px 24px 64px; }
+  .mx-item { gap: 18px; padding: 20px 0; }
+  .mx-n { font-size: 24px; }
 }
 
 /* Más allá / SEP badge */
@@ -625,7 +638,7 @@ footer {
 }
 
 /* Focus visibility */
-a:focus-visible, .masaje-item:focus-visible { outline: 2px solid var(--arcilla); outline-offset: 3px; }
+a:focus-visible, .mx-item:focus-visible { outline: 2px solid var(--arcilla); outline-offset: 3px; }
 </style>
 
 <nav class="nav" id="nav">
@@ -653,6 +666,28 @@ a:focus-visible, .masaje-item:focus-visible { outline: 2px solid var(--arcilla);
   </div>
   <div class="scroll-cue">Desplázate<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 2v11M8 13l-4.5-4.5M8 13l4.5-4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
 </header>
+
+<section class="mx" id="masajes">
+  <div class="mx-inner">
+    <div class="mx-head mx-fx" id="mxHead">
+      <span class="eyebrow">Masajes Esenciales Spa</span>
+      <h2 aria-label="10 masajes que aprenderás"><span class="mx-count" id="mxCount" aria-hidden="true" data-to="10">10</span> <span aria-hidden="true">masajes<br>que aprenderás</span></h2>
+      <p>Integración progresiva de los conocimientos adquiridos mediante el aprendizaje y práctica de modalidades fundamentales dentro de los servicios de masajes relajantes y bienestar.</p>
+    </div>
+    <ol class="mx-list reveal">
+      <li class="mx-item" tabindex="0"><span class="mx-n">01</span><span class="mx-t">Masaje Neurosedante</span></li>
+      <li class="mx-item" tabindex="0"><span class="mx-n">02</span><span class="mx-t">Masaje NeuroBalance</span></li>
+      <li class="mx-item" tabindex="0"><span class="mx-n">03</span><span class="mx-t">Masaje Neurovitalizante</span></li>
+      <li class="mx-item" tabindex="0"><span class="mx-n">04</span><span class="mx-t">Masaje Linfovenoso de Piernas</span></li>
+      <li class="mx-item" tabindex="0"><span class="mx-n">05</span><span class="mx-t">Masaje Músculo-Articular de Piernas</span></li>
+      <li class="mx-item" tabindex="0"><span class="mx-n">06</span><span class="mx-t">Masaje Prenatal</span></li>
+      <li class="mx-item" tabindex="0"><span class="mx-n">07</span><span class="mx-t">Masaje con Costales Herbales</span></li>
+      <li class="mx-item" tabindex="0"><span class="mx-n">08</span><span class="mx-t">Masaje Aromaterapéutico</span></li>
+      <li class="mx-item" tabindex="0"><span class="mx-n">09</span><span class="mx-t">Masaje con Piedras Calientes</span></li>
+      <li class="mx-item" tabindex="0"><span class="mx-n">10</span><span class="mx-t">Masaje con Vela</span></li>
+    </ol>
+  </div>
+</section>
 
 <section class="section" id="formacion">
   <div class="container statement reveal">
@@ -714,28 +749,6 @@ a:focus-visible, .masaje-item:focus-visible { outline: 2px solid var(--arcilla);
     <span class="eyebrow">04 — Dimensión humana</span>
     <h2>Psicología Holística y dimensión humana del masaje</h2>
     <p class="body">Una aproximación al receptor como una persona integral. Se aborda la importancia de la comunicación, percepción, escucha, lenguaje corporal, emociones, empatía, presencia y vínculo terapéutico, fortaleciendo la calidad humana que acompaña al conocimiento técnico.</p>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container">
-    <div class="masajes-intro reveal">
-      <span class="eyebrow">Masajes Esenciales Spa</span>
-      <h2>Formación en Masajes Esenciales Spa</h2>
-      <p>Integración progresiva de los conocimientos adquiridos mediante el aprendizaje y práctica de modalidades fundamentales dentro de los servicios de masajes relajantes y bienestar:</p>
-    </div>
-    <div class="masajes-grid reveal">
-      <div class="masaje-item" tabindex="0"><span class="n">01</span>Masaje Neurosedante</div>
-      <div class="masaje-item" tabindex="0"><span class="n">06</span>Masaje Prenatal</div>
-      <div class="masaje-item" tabindex="0"><span class="n">02</span>Masaje NeuroBalance</div>
-      <div class="masaje-item" tabindex="0"><span class="n">07</span>Masaje con Costales Herbales</div>
-      <div class="masaje-item" tabindex="0"><span class="n">03</span>Masaje Neurovitalizante</div>
-      <div class="masaje-item" tabindex="0"><span class="n">08</span>Masaje Aromaterapéutico</div>
-      <div class="masaje-item" tabindex="0"><span class="n">04</span>Masaje Linfovenoso de Piernas</div>
-      <div class="masaje-item" tabindex="0"><span class="n">09</span>Masaje con Piedras Calientes</div>
-      <div class="masaje-item" tabindex="0"><span class="n">05</span>Masaje Músculo-Articular de Piernas</div>
-      <div class="masaje-item" tabindex="0"><span class="n">10</span>Masaje con Vela</div>
-    </div>
   </div>
 </section>
 
@@ -939,5 +952,28 @@ a:focus-visible, .masaje-item:focus-visible { outline: 2px solid var(--arcilla);
     }, { threshold: 0, rootMargin: '-45% 0px -50% 0px' });
     sections.forEach(function(s){ navIo.observe(s); });
   }
+})();
+</script>
+<script>
+(function(){
+  var head=document.getElementById('mxHead'), num=document.getElementById('mxCount');
+  if(!head||!num) return;
+  var to=+num.dataset.to, reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches, started=false;
+  function run(){
+    if(started) return; started=true; head.classList.add('in');
+    if(reduced){ num.textContent=to; return; }
+    var t0=null, dur=2800;
+    (function tick(t){
+      if(t0===null) t0=t;
+      var k=Math.min((t-t0)/dur,1), e=1-Math.pow(1-k,3);
+      num.textContent=Math.round(to*e);
+      if(k<1) requestAnimationFrame(tick); else num.textContent=to;
+    })(performance.now());
+  }
+  if(!reduced) num.textContent='0';
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ run(); io.disconnect(); } }); },{threshold:0.4});
+    io.observe(head);
+  } else run();
 })();
 </script>
